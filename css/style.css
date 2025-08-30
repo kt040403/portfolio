@@ -143,38 +143,17 @@ body {
 }
 
 .navbar-brand {
+  font-size: 1.5rem;
+  font-weight: 700;
+  background: linear-gradient(90deg, var(--ios-cyan), var(--ios-blue));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
   transition: var(--transition);
-  padding: 0.5rem 0;
-  height: 50px;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
 }
 
 .navbar-brand:hover {
   transform: scale(1.05);
-}
-
-.navbar-logo {
-  height: 180px;
-  width: auto;
-  filter: 
-    brightness(0) saturate(100%) 
-    invert(29%) sepia(98%) saturate(2084%) hue-rotate(213deg) brightness(95%) contrast(101%)
-    drop-shadow(0 2px 4px rgba(0, 102, 204, 0.2))
-    drop-shadow(0 0 8px rgba(0, 102, 204, 0.3));
-  transition: var(--transition);
-  object-fit: contain;
-  object-position: center;
-  animation: logoBlueGlow 4s ease-in-out infinite;
-}
-
-.navbar-logo:hover {
-  filter: 
-    brightness(0) saturate(100%) 
-    invert(29%) sepia(98%) saturate(2084%) hue-rotate(213deg) brightness(95%) contrast(101%)
-    drop-shadow(0 4px 12px rgba(0, 102, 204, 0.4));
-  transform: scale(1.02);
 }
 
 .navbar-nav .nav-link {
@@ -600,22 +579,6 @@ body {
   100% { background-position: 0% center; }
 }
 
-@keyframes logoBlueGlow {
-  0%, 100% {
-    filter: 
-      brightness(0) saturate(100%) 
-      invert(29%) sepia(98%) saturate(2084%) hue-rotate(213deg) brightness(95%) contrast(101%)
-      drop-shadow(0 2px 4px rgba(0, 102, 204, 0.2))
-      drop-shadow(0 0 8px rgba(0, 102, 204, 0.3));
-  }
-  50% {
-    filter: 
-      brightness(0) saturate(100%) 
-      invert(29%) sepia(98%) saturate(2084%) hue-rotate(213deg) brightness(95%) contrast(101%)
-      drop-shadow(0 2px 4px rgba(0, 102, 204, 0.3))
-      drop-shadow(0 0 16px rgba(0, 102, 204, 0.5));
-  }
-}
 
 /* Button Styles - Apple Style */
 .btn {
@@ -706,13 +669,6 @@ body {
     margin-top: 1rem;
   }
   
-  .navbar-brand {
-    height: 40px;
-  }
-  
-  .navbar-logo {
-    height: 120px;
-  }
   
   .skill-category {
     margin-bottom: 2rem;
@@ -732,13 +688,6 @@ body {
     margin: 0.5rem 0;
   }
   
-  .navbar-brand {
-    height: 35px;
-  }
-  
-  .navbar-logo {
-    height: 100px;
-  }
   
   .hero-content h1 {
     font-size: 2rem;
