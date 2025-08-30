@@ -245,13 +245,13 @@ if (!document.querySelector('#custom-animations')) {
         }
         
         .navbar-nav .nav-link.active {
-            color: #0071e3 !important;
+            color: #0066CC !important;
             font-weight: 600;
         }
         
         .navbar-nav .nav-link.active::after {
             width: 100% !important;
-            background: linear-gradient(90deg, #32d74b, #0071e3);
+            background: linear-gradient(90deg, #32ADE6, #007AFF);
         }
         
         /* Parallax effect for sections */
