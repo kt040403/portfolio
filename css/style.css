@@ -252,6 +252,35 @@ body {
   animation: fadeInUp 1s ease-out 0.8s both;
 }
 
+/* Hero Logo Styles */
+.logo-container {
+  text-align: center;
+  animation: fadeInUp 1s ease-out 0.1s both;
+}
+
+.hero-logo {
+  max-width: 400px;
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.3));
+  transition: var(--transition);
+  animation: logoGlow 3s ease-in-out infinite;
+}
+
+.hero-logo:hover {
+  transform: scale(1.05);
+  filter: drop-shadow(0 0 30px rgba(255, 255, 255, 0.5));
+}
+
+@keyframes logoGlow {
+  0%, 100% {
+    filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.3));
+  }
+  50% {
+    filter: drop-shadow(0 0 35px rgba(255, 255, 255, 0.6));
+  }
+}
+
 .hero-image {
   background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(20px);
@@ -657,6 +686,10 @@ body {
     margin-top: 1rem;
   }
   
+  .hero-logo {
+    max-width: 300px;
+  }
+  
   .skill-category {
     margin-bottom: 2rem;
   }
@@ -670,13 +703,13 @@ body {
 }
 
 @media (max-width: 576px) {
-  .hero-content h1 {
-    font-size: 2rem;
-  }
-  
   .hero-content .btn {
     display: block;
     margin: 0.5rem 0;
+  }
+  
+  .hero-logo {
+    max-width: 250px;
   }
   
   .profile-img {
