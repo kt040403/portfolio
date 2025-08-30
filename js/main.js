@@ -245,15 +245,65 @@ if (!document.querySelector('#custom-animations')) {
         }
         
         .navbar-nav .nav-link.active {
-            color: var(--bs-primary) !important;
+            color: #0071e3 !important;
+            font-weight: 600;
         }
         
         .navbar-nav .nav-link.active::after {
-            width: 80% !important;
+            width: 100% !important;
+            background: linear-gradient(90deg, #32d74b, #0071e3);
+        }
+        
+        /* Parallax effect for sections */
+        .parallax-element {
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        
+        /* Magnetic button effect */
+        .btn-magnetic {
+            position: relative;
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         }
     `;
     document.head.appendChild(style);
 }
+
+// Add parallax scrolling effect
+function initParallax() {
+    window.addEventListener('scroll', () => {
+        const scrolled = window.pageYOffset;
+        const parallaxElements = document.querySelectorAll('.parallax-element');
+        
+        parallaxElements.forEach(element => {
+            const speed = element.dataset.speed || 0.5;
+            const yPos = -(scrolled * speed);
+            element.style.transform = `translateY(${yPos}px)`;
+        });
+    });
+}
+
+// Add magnetic button effect
+function initMagneticButtons() {
+    const magneticButtons = document.querySelectorAll('.btn');
+    
+    magneticButtons.forEach(button => {
+        button.addEventListener('mousemove', (e) => {
+            const rect = button.getBoundingClientRect();
+            const x = e.clientX - rect.left - rect.width / 2;
+            const y = e.clientY - rect.top - rect.height / 2;
+            
+            button.style.transform = `translate(${x * 0.2}px, ${y * 0.2}px)`;
+        });
+        
+        button.addEventListener('mouseleave', () => {
+            button.style.transform = 'translate(0, 0)';
+        });
+    });
+}
+
+// Initialize new effects
+initParallax();
+initMagneticButtons();
 
 // Utility functions
 function debounce(func, wait) {
