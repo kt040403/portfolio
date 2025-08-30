@@ -135,7 +135,7 @@ body {
 /* Navigation */
 .navbar {
   transition: var(--transition);
-  padding: 1rem 0;
+  padding: 0.75rem 0;
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   background: rgba(255, 255, 255, 0.8) !important;
@@ -152,7 +152,7 @@ body {
 }
 
 .navbar-logo {
-  height: 40px;
+  height: 60px;
   width: auto;
   filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
   transition: var(--transition);
@@ -675,7 +675,7 @@ body {
   }
   
   .navbar-logo {
-    height: 35px;
+    height: 50px;
   }
   
   .skill-category {
@@ -697,7 +697,7 @@ body {
   }
   
   .navbar-logo {
-    height: 30px;
+    height: 40px;
   }
   
   .hero-content h1 {
