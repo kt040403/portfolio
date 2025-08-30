@@ -135,7 +135,7 @@ body {
 /* Navigation */
 .navbar {
   transition: var(--transition);
-  padding: 1.5rem 0;
+  padding: 0.75rem 0;
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   background: rgba(255, 255, 255, 0.8) !important;
@@ -145,6 +145,10 @@ body {
 .navbar-brand {
   transition: var(--transition);
   padding: 0.5rem 0;
+  height: 50px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
 }
 
 .navbar-brand:hover {
@@ -156,6 +160,8 @@ body {
   width: auto;
   filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
   transition: var(--transition);
+  object-fit: contain;
+  object-position: center;
 }
 
 .navbar-logo:hover {
@@ -674,12 +680,12 @@ body {
     margin-top: 1rem;
   }
   
-  .navbar-logo {
-    height: 150px;
+  .navbar-brand {
+    height: 40px;
   }
   
-  .navbar {
-    padding: 1rem 0;
+  .navbar-logo {
+    height: 120px;
   }
   
   .skill-category {
@@ -700,8 +706,12 @@ body {
     margin: 0.5rem 0;
   }
   
+  .navbar-brand {
+    height: 35px;
+  }
+  
   .navbar-logo {
-    height: 120px;
+    height: 100px;
   }
   
   .hero-content h1 {
