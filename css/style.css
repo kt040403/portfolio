@@ -158,14 +158,23 @@ body {
 .navbar-logo {
   height: 180px;
   width: auto;
-  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+  filter: 
+    brightness(0) saturate(100%) 
+    invert(29%) sepia(98%) saturate(2084%) hue-rotate(213deg) brightness(95%) contrast(101%)
+    drop-shadow(0 2px 4px rgba(0, 102, 204, 0.2))
+    drop-shadow(0 0 8px rgba(0, 102, 204, 0.3));
   transition: var(--transition);
   object-fit: contain;
   object-position: center;
+  animation: logoBlueGlow 4s ease-in-out infinite;
 }
 
 .navbar-logo:hover {
-  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.15));
+  filter: 
+    brightness(0) saturate(100%) 
+    invert(29%) sepia(98%) saturate(2084%) hue-rotate(213deg) brightness(95%) contrast(101%)
+    drop-shadow(0 4px 12px rgba(0, 102, 204, 0.4));
+  transform: scale(1.02);
 }
 
 .navbar-nav .nav-link {
@@ -589,6 +598,23 @@ body {
   0% { background-position: 0% center; }
   50% { background-position: 100% center; }
   100% { background-position: 0% center; }
+}
+
+@keyframes logoBlueGlow {
+  0%, 100% {
+    filter: 
+      brightness(0) saturate(100%) 
+      invert(29%) sepia(98%) saturate(2084%) hue-rotate(213deg) brightness(95%) contrast(101%)
+      drop-shadow(0 2px 4px rgba(0, 102, 204, 0.2))
+      drop-shadow(0 0 8px rgba(0, 102, 204, 0.3));
+  }
+  50% {
+    filter: 
+      brightness(0) saturate(100%) 
+      invert(29%) sepia(98%) saturate(2084%) hue-rotate(213deg) brightness(95%) contrast(101%)
+      drop-shadow(0 2px 4px rgba(0, 102, 204, 0.3))
+      drop-shadow(0 0 16px rgba(0, 102, 204, 0.5));
+  }
 }
 
 /* Button Styles - Apple Style */
