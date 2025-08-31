@@ -33,10 +33,20 @@ The ComponentLoader class in `js/component-loader.js` defines the component mapp
 
 ### Local Development
 ```bash
-# Serve locally (required for component loading)
+# Serve locally (required for component loading due to CORS restrictions)
 python -m http.server 8000
 # or
 npx live-server
+# or
+php -S localhost:8000
+```
+
+### Testing
+```bash
+# Open in browser after starting local server
+open http://localhost:8000
+# Test component loading by checking browser console for errors
+# Verify responsive design on different viewport sizes
 ```
 
 ### Git Operations
@@ -57,8 +67,9 @@ git push origin main
 ### Updating Existing Content
 - Edit individual component files in `components/` directory
 - Skills section uses custom progress bars with inline width styles
-- Projects section uses Bootstrap card components with custom `.project-card` class
-- Contact form configured for Formspree integration
+- Projects section shows personal projects as cards, business experience as alert summary
+- Contact form configured for Formspree integration (action URL needs updating)
+- All external CDN dependencies loaded from head section of index.html
 
 ### Image Management
 - Profile images: `images/profile.png` (referenced in hero component)  
@@ -151,3 +162,21 @@ git push origin main
 - **No Build Process**: Static files served directly
 - **HTTPS**: GitHub Pages provides SSL automatically
 - **Custom Domain**: Add CNAME file if needed
+- **Deployment Trigger**: Automatic on push to main branch
+- **URL Pattern**: `https://<username>.github.io/<repository-name>/`
+
+## Portfolio Content Strategy
+
+This portfolio is designed for a backend developer with business system experience:
+- **Business Experience**: Shown as summary (not detailed cards) to maintain confidentiality
+- **Personal Projects**: Featured prominently in card format with links
+- **Skills Focus**: Backend technologies (PHP, PostgreSQL) and AI-assisted development
+- **Contact Strategy**: Professional contact form for inquiry handling
+
+## Key Dependencies
+
+All external dependencies are loaded via CDN in index.html:
+- Bootstrap 5.3.0 (CSS and JS bundle)
+- Font Awesome 6.4.0 (icons)
+- Google Fonts Inter (typography)
+- No package.json or build dependencies required
