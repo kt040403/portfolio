@@ -19,6 +19,17 @@ test('トップページが表示され主要セクションが存在する', as
     page.getByRole('heading', { name: 'Store Dashboard' })
   ).toBeVisible()
 
+  // Works: 業務システム（共通基盤とその上の CRM）
+  await expect(
+    page.getByRole('heading', { name: '営業・売上管理CRM（BtoB法人営業向け）' })
+  ).toBeVisible()
+  await expect(
+    page.getByRole('heading', { name: '業務システム共通基盤テンプレート' })
+  ).toBeVisible()
+  await expect(
+    page.getByRole('link', { name: '静的デモ →' })
+  ).toHaveAttribute('href', 'https://crm-demo-static-snowy.vercel.app')
+
   // Contact: セクション見出し
   await expect(
     page.getByRole('heading', { name: 'お問い合わせ' })

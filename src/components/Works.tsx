@@ -58,6 +58,91 @@ const workCaseStudies: Project[] = [
   },
 ]
 
+// 自主制作の業務システム（共通基盤とその上に載せた CRM）
+const businessSystems: Project[] = [
+  {
+    badges: [{ text: 'Featured', featured: true }, { text: '業務システム' }],
+    title: '営業・売上管理CRM（BtoB法人営業向け）',
+    sections: [
+      {
+        label: '想定クライアント',
+        body: 'BtoB向けにシステム開発・広告・人材サービスを提供する中小企業（架空「アルティス・ソリューションズ」／従業員数十名・営業8名）。顧客・商談・売上の情報が担当者ごとに分散し、会社全体の売上と受注見込みを把握しづらい状態を想定した。',
+      },
+      {
+        label: '課題',
+        body: '金額と売上の一元管理、営業プロセス（見込み〜受注）の可視化、そして確定売上金額の正確性。とくに税額の端数処理や税率改定への備えは、属人的な運用のままでは金額のズレを生みやすい。',
+      },
+      {
+        label: 'アプローチ / 設計判断',
+        body: '顧客→商談→明細で金額を積み上げ、各層で可視化する構造にした。税は内税に統一し、税率マスタを適用開始日で世代管理したうえで、明細には確定時点の税率をスナップショットとして保持。これにより税率改定への追随と過去データの保全を両立させ、端数は「同一税率でまとめて1回だけ切り捨て」に固定して計算箇所を1か所へ集約した。集計はデータ量に依存しない固定クエリ本数で組み（N+1を排除し、本数はテストで固定）、Salesforce・GENIEE・Mazricaなど実サービスを調査したうえで、期間フィルタ（予定クローズ日／受注日の切替＋相対期間）・保存ビュー・カンバン・組織階層のドリルダウン・予実管理（目標と達成率）を実装した。',
+      },
+      {
+        label: '結果',
+        body: '金額の正確性を保ったまま、パイプライン・売上推移・組織別・予実を多角的に可視化できる状態にした。共通基盤の上に構築しているため、同じ土台で他の業務システムへ横展開できる。',
+      },
+      {
+        label: '設計ハイライト',
+        body: '内税の税率グループ単位の端数処理／税率スナップショットによる過去データ保全／商談合計のサーバ側再計算／集計の固定クエリ本数（実測値をテストで固定）／組織階層（地域→エリア→店舗→担当者）集計／予実管理（目標・達成率）。',
+      },
+    ],
+    tags: [
+      'PHP 8.3',
+      'Laravel',
+      'PostgreSQL',
+      'Blade + Alpine.js',
+      'Tailwind CSS',
+      'Docker',
+      'Pint / Larastan / PHPUnit',
+      'GitHub Actions',
+    ],
+    links: [
+      { label: '静的デモ →', href: 'https://crm-demo-static-snowy.vercel.app' },
+      { label: 'GitHub →', href: 'https://github.com/koutadev/crm-sales' },
+      {
+        label: '基本設計書 →',
+        href: 'https://github.com/koutadev/crm-sales/blob/main/docs/basic-design.md',
+      },
+    ],
+  },
+  {
+    badges: [{ text: '共通基盤', featured: true }, { text: 'Platform' }],
+    title: '業務システム共通基盤テンプレート',
+    sections: [
+      {
+        label: '課題',
+        body: '業務システムは分野が違っても、認証・権限・マスタ管理・一覧検索・監査ログ・ダッシュボードという土台はほぼ同じ。案件ごとに作り直すと、同じ実装を繰り返しながら品質も揃わない。',
+      },
+      {
+        label: 'アプローチ / 設計判断',
+        body: '土台だけを完成させたテンプレートとして切り出した。認証・ロール権限・共通マスタ・共通一覧基盤（検索／絞り込み／並び替え／ページング／CSV／保存ビュー）・監査ログ・UI部品一式のデザインシステムを備え、業務固有のテーブルと画面を足すだけで新規システムを始められる。共通部分はこの基盤で直し、各システムへ同期スクリプトで反映する運用にしている。',
+      },
+      {
+        label: '結果',
+        body: '上記のCRMはこの基盤から派生させて構築した。同じ構造で複数システムを作れるため、将来それらを統合する際の障壁も小さくなる。',
+      },
+      {
+        label: '設計ハイライト',
+        body: '業務コード採番の行ロック（同時登録でも番号が重複しない）／監査ログの付け忘れ防止（モデル側で自動記録）／共通一覧基盤（定義クラス1つで一覧機能一式）／デザインシステム（テーマ差し替えで配色とサービス名を切替）。',
+      },
+    ],
+    tags: [
+      'PHP 8.3',
+      'Laravel',
+      'PostgreSQL',
+      'Blade + Alpine.js',
+      'Tailwind CSS',
+      'Docker',
+      'GitHub Actions',
+    ],
+    links: [
+      {
+        label: 'GitHub →',
+        href: 'https://github.com/koutadev/laravel-business-template',
+      },
+    ],
+  },
+]
+
 // 個人開発
 const projects: Project[] = [
   {
@@ -259,11 +344,34 @@ export default function Works() {
           <SqlOptimizationDemo />
         </div>
 
+        {/* 自主制作の業務システム — 共通基盤とその上の CRM */}
+        <div
+          className="fade-up"
+          style={{
+            transitionDelay: '0.22s',
+            opacity: isVisible ? 1 : 0,
+            transform: isVisible ? 'translateY(0)' : 'translateY(40px)',
+          }}
+        >
+          <h3 className="font-[family-name:var(--font-mono)] text-accent text-sm tracking-widest mb-6">
+            自主制作 — 業務システム
+          </h3>
+        </div>
+        {businessSystems.map((project, i) => (
+          <ProjectCard
+            key={project.title}
+            project={project}
+            isVisible={isVisible}
+            delay={`${0.24 + i * 0.05}s`}
+            marginBottom={i === businessSystems.length - 1 ? 'mb-16' : 'mb-8'}
+          />
+        ))}
+
         {/* 個人開発 */}
         <div
           className="fade-up"
           style={{
-            transitionDelay: '0.25s',
+            transitionDelay: '0.35s',
             opacity: isVisible ? 1 : 0,
             transform: isVisible ? 'translateY(0)' : 'translateY(40px)',
           }}
@@ -277,7 +385,7 @@ export default function Works() {
             key={project.title}
             project={project}
             isVisible={isVisible}
-            delay={`${0.3 + i * 0.05}s`}
+            delay={`${0.4 + i * 0.05}s`}
             marginBottom={i === projects.length - 1 ? 'mb-0' : 'mb-8'}
           />
         ))}
