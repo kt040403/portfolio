@@ -58,7 +58,7 @@ const workCaseStudies: Project[] = [
   },
 ]
 
-// 自主制作の業務システム（共通基盤とその上に載せた CRM）
+// 自主制作の業務システム（共通基盤と、その上に載せた CRM・ヨガ予約）
 const businessSystems: Project[] = [
   {
     badges: [{ text: 'Featured', featured: true }, { text: '業務システム' }],
@@ -82,7 +82,7 @@ const businessSystems: Project[] = [
       },
       {
         label: '設計ハイライト',
-        body: '内税の税率グループ単位の端数処理／税率スナップショットによる過去データ保全／商談合計のサーバ側再計算／集計の固定クエリ本数（実測値をテストで固定）／組織階層（地域→エリア→店舗→担当者）集計／予実管理（目標・達成率）。',
+        body: '内税の税率グループ単位の端数処理／税率スナップショットによる過去データ保全／商談合計のサーバ側再計算／集計の固定クエリ本数（実測値をテストで固定）／組織階層（地域→エリア→店舗→担当者）集計／予実管理（目標・達成率）。共通基盤の横断改善で、一覧のカード化・ポップアップの画面内配置・タップ領域44px等のモバイル対応も実施（レスポンシブ）。',
       },
     ],
     tags: [
@@ -105,6 +105,50 @@ const businessSystems: Project[] = [
     ],
   },
   {
+    badges: [{ text: 'Featured', featured: true }, { text: 'モバイルファースト' }],
+    title: 'オンラインヨガ予約システム（モバイルファースト）',
+    sections: [
+      {
+        label: '想定クライアント',
+        body: 'オンライン専門のヨガスタジオ（架空）。複数のインストラクターがグループ／マンツーマンのレッスンをオンラインで提供し、会員はその都度、空いている枠を見て予約する運用を想定した。',
+      },
+      {
+        label: '課題',
+        body: '予約・定員・キャンセルを手作業で管理しているため、二重予約や定員超過、予約忘れが起きる。満席になった時点で申し込みを取りこぼし、キャンセルで空いた席も埋まらないまま機会損失になる。会員がスマホだけで完結できる予約導線もない。',
+      },
+      {
+        label: 'アプローチ / 設計判断',
+        body: '予約の確定は、対象の枠を行ロック（SELECT … FOR UPDATE）してから残枠を数え直し、その上でINSERTする手順に固定した。これにより同時アクセスでも定員超過・二重予約が起こらない。正しさは主張ではなく、2コネクションで同時に予約を試みる同時実行テストで「定員を超えない」ことを証明している。キャンセルで空いた席は待ち行列の先頭へ自動で繰り上げ（同じ時間帯に別の予約がある会員はスキップ）、キャンセルと繰り上げは同一トランザクション・同一の枠ロックで処理して中途半端な状態を残さない。画面はモバイルファーストで、スマホは日付を切り替えるリスト、PCは積み上げゲージ式の週カレンダー。空き状況はゲージの面積・色・数値で三重に符号化し、色覚多様性に配慮した。残枠集計はデータ量に依存しない固定クエリ本数で組み、本数をテストで固定している。共通基盤の上に構築しており、CRMと同じ土台からの派生である。',
+      },
+      {
+        label: '結果',
+        body: '予約の整合性を保証したうえで（定員超過・二重予約はテストで防止）、満席時の機会損失もキャンセル待ちの自動繰り上げで解消できる状態にした。会員はスマホだけで空き枠の確認から予約・キャンセルまで完結できる。',
+      },
+      {
+        label: '設計ハイライト',
+        body: '予約競合の行ロック制御／キャンセル待ちの繰り上げロジック／モバイルファーストの週カレンダー／データ量非依存の集計／テストで整合を証明（371テスト）。',
+      },
+    ],
+    tags: [
+      'PHP 8.3',
+      'Laravel',
+      'PostgreSQL',
+      'Blade + Alpine.js',
+      'Tailwind CSS',
+      'Docker',
+      'Pint / Larastan / PHPUnit',
+      'GitHub Actions',
+    ],
+    links: [
+      { label: '静的デモ →', href: 'https://yoga-demo-static.vercel.app' },
+      { label: 'GitHub →', href: 'https://github.com/koutadev/reservation-yoga' },
+      {
+        label: '基本設計書 →',
+        href: 'https://github.com/koutadev/reservation-yoga/blob/main/docs/basic-design.md',
+      },
+    ],
+  },
+  {
     badges: [{ text: '共通基盤', featured: true }, { text: 'Platform' }],
     title: '業務システム共通基盤テンプレート',
     sections: [
@@ -118,7 +162,7 @@ const businessSystems: Project[] = [
       },
       {
         label: '結果',
-        body: '上記のCRMはこの基盤から派生させて構築した。同じ構造で複数システムを作れるため、将来それらを統合する際の障壁も小さくなる。',
+        body: 'この基盤から、営業・売上管理CRMとオンラインヨガ予約システムの2システムを派生させた。モバイル対応のような横断的な改善は基盤で1回直して両システムへ同期スクリプトで反映しており、横展開できる設計であることを実証できている。同じ構造で複数システムを作れるため、将来それらを統合する際の障壁も小さくなる。',
       },
       {
         label: '設計ハイライト',
@@ -219,6 +263,7 @@ type CardProps = {
 function ProjectCard({ project, isVisible, delay, marginBottom }: CardProps) {
   return (
     <div
+      data-project={project.title}
       className={`fade-up border border-white/[0.06] rounded-lg p-6 md:p-8 hover:border-accent/40 hover:-translate-y-1 hover:shadow-[0_8px_30px_rgba(196,132,29,0.08)] transition-all duration-300 ${marginBottom}`}
       style={{
         transitionDelay: delay,
@@ -344,7 +389,7 @@ export default function Works() {
           <SqlOptimizationDemo />
         </div>
 
-        {/* 自主制作の業務システム — 共通基盤とその上の CRM */}
+        {/* 自主制作の業務システム — 共通基盤と、その上の CRM・ヨガ予約 */}
         <div
           className="fade-up"
           style={{

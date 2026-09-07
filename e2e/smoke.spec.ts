@@ -19,16 +19,39 @@ test('トップページが表示され主要セクションが存在する', as
     page.getByRole('heading', { name: 'Store Dashboard' })
   ).toBeVisible()
 
-  // Works: 業務システム（共通基盤とその上の CRM）
+  // Works: 業務システム（共通基盤と、その上の CRM・ヨガ予約）
   await expect(
     page.getByRole('heading', { name: '営業・売上管理CRM（BtoB法人営業向け）' })
   ).toBeVisible()
   await expect(
-    page.getByRole('heading', { name: '業務システム共通基盤テンプレート' })
+    page.getByRole('heading', { name: 'オンラインヨガ予約システム（モバイルファースト）' })
   ).toBeVisible()
   await expect(
-    page.getByRole('link', { name: '静的デモ →' })
-  ).toHaveAttribute('href', 'https://crm-demo-static-snowy.vercel.app')
+    page.getByRole('heading', { name: '業務システム共通基盤テンプレート' })
+  ).toBeVisible()
+
+  // 各ケーススタディのリンク（静的デモは複数あるのでカード単位で確かめる）
+  const crmCard = page.locator('[data-project="営業・売上管理CRM（BtoB法人営業向け）"]')
+  await expect(crmCard.getByRole('link', { name: '静的デモ →' })).toHaveAttribute(
+    'href',
+    'https://crm-demo-static-snowy.vercel.app'
+  )
+
+  const yogaCard = page.locator(
+    '[data-project="オンラインヨガ予約システム（モバイルファースト）"]'
+  )
+  await expect(yogaCard.getByRole('link', { name: '静的デモ →' })).toHaveAttribute(
+    'href',
+    'https://yoga-demo-static.vercel.app'
+  )
+  await expect(yogaCard.getByRole('link', { name: 'GitHub →' })).toHaveAttribute(
+    'href',
+    'https://github.com/koutadev/reservation-yoga'
+  )
+  await expect(yogaCard.getByRole('link', { name: '基本設計書 →' })).toHaveAttribute(
+    'href',
+    'https://github.com/koutadev/reservation-yoga/blob/main/docs/basic-design.md'
+  )
 
   // Contact: セクション見出し
   await expect(
